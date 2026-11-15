@@ -141,3 +141,24 @@ Build locally with `docker build -f Dockerfile.tiles -t gawa:tiles .`.
 The image extends the original pinned scientific environment with this fork's
 code. CI tests orchestration and builds/publishes the image; these checks do not
 constitute a scientific benchmark or catalog-validation experiment.
+
+### Native Akoflow single-host profile
+
+The `akoflow/native/` bundle contains workflow, environment, scope and topology
+files for a Docker-backed Akoflow daemon. It uses a run-scoped shared directory
+in the daemon's workspace volume and four explicit dependency chains. Assign
+the tile activities to four separate plan slots; a single plan lane serializes
+them even when four CPUs are available. This profile requires the daemon's
+shared workspace volume and is not a distributed cross-host profile.
+
+Build this source revision as `gawa:homeserver-tiles-v1` before importing this
+profile. The final activity validates all 14 completion records and the final
+catalog, exports a CSV and creates `catalog-preview.png` showing candidate
+positions and their signal-to-noise distribution. These checks establish
+structural/numeric validity; they do not establish astronomical completeness or
+purity. The plot shows detections from the bundled MOCK_DES dataset, not a
+photograph of the sky.
+
+The `mr_filter` invocation uses short filenames with an explicit working
+directory: the legacy external binary segfaulted with long Akoflow workspace
+paths, while the same input and filter parameters succeeded with short names.

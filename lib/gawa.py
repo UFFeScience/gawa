@@ -638,87 +638,25 @@ def fits2map(wmap):
 
 
 def run_mr_filter(filled_catimage, wmap, gawa_cfg):
-    """_summary_
-
-    Args:
-        filled_catimage (_type_): _description_
-        wmap (_type_): _description_
-        gawa_cfg (_type_): _description_
-    """
-
     path_mr = gawa_cfg["path_mr_filter"]
-    # run mr_filter to build wavelet map
-    scale_min_pix = gawa_cfg["wavelet_specs"][gawa_cfg["detection_mode"]][
-        "scale_min_arcmin"
-    ] * float(gawa_cfg["map_resolution"])
-    scale_max_pix = gawa_cfg["wavelet_specs"][gawa_cfg["detection_mode"]][
-        "scale_max_arcmin"
-    ] * float(gawa_cfg["map_resolution"])
-    smin = int(round(math.log10(scale_min_pix) / math.log10(2.0)))
-    smax = int(round(math.log10(scale_max_pix) / math.log10(2.0)))
+    scales = gawa_cfg["wavelet_specs"][gawa_cfg["detection_mode"]]
+    resolution = float(gawa_cfg["map_resolution"])
+    smin = int(round(math.log10(scales["scale_min_arcmin"] * resolution) / math.log10(2.0)))
+    smax = int(round(math.log10(scales["scale_max_arcmin"] * resolution) / math.log10(2.0)))
+    if smin not in range(4):
+        raise ValueError("mr_filter requires a minimum wavelet scale from 0 to 3")
+    source = os.path.abspath(filled_catimage)
+    target = os.path.abspath(wmap)
+    directory = os.path.dirname(source)
+    binary = os.path.join(os.path.abspath(path_mr), "mr_filter") if path_mr else "mr_filter"
+    thresholds = ",".join(["10."] * smin + ["3.", "3."])
+    subprocess.run(
+        [binary, "-m", "10", "-i", "3", "-s", thresholds, "-n", str(smax + 1),
+         "-f", "3", "-K", "-C", "2", "-p", "-e0", "-A",
+         os.path.basename(source), os.path.relpath(target, directory)],
+        cwd=directory, check=True, stdout=subprocess.PIPE,
+    )
 
-    if smin == 0:
-        subprocess.run(
-            (
-                os.path.join(path_mr, "mr_filter")
-                + " -m 10 -i 3 -s 3.,3. -n "
-                + str(smax + 1)
-                + " -f 3 -K -C 2 -p -e0 -A "
-                + filled_catimage
-                + " "
-                + wmap
-            ),
-            check=True,
-            shell=True,
-            stdout=subprocess.PIPE,
-        ).stdout
-    if smin == 1:
-        subprocess.run(
-            (
-                os.path.join(path_mr, "mr_filter")
-                + " -m 10 -i 3 -s 10.,3.,3. -n "
-                + str(smax + 1)
-                + " -f 3 -K -C 2 -p -e0 -A "
-                + filled_catimage
-                + " "
-                + wmap
-            ),
-            check=True,
-            shell=True,
-            stdout=subprocess.PIPE,
-        ).stdout
-    if smin == 2:
-        subprocess.run(
-            (
-                os.path.join(path_mr, "mr_filter")
-                + " -m 10 -i 3 -s 10.,10.,3.,3. -n "
-                + str(smax + 1)
-                + " -f 3 -K -C 2 -p -e0 -A "
-                + filled_catimage
-                + " "
-                + wmap
-            ),
-            check=True,
-            shell=True,
-            stdout=subprocess.PIPE,
-        ).stdout
-    if smin == 3:
-        subprocess.run(
-            (
-                os.path.join(path_mr, "mr_filter")
-                + " -m 10 -i 3 -s 10.,10.,10.,3.,3. -n "
-                + str(smax + 1)
-                + " -f 3 -K -C 2 -p -e0 -A "
-                + filled_catimage
-                + " "
-                + wmap
-            ),
-            check=True,
-            shell=True,
-            stdout=subprocess.PIPE,
-        ).stdout
-
-    return
 
 
 def wmap2peaks(wmap, wazp_specs, tile_specs):
