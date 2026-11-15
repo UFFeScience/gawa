@@ -1,0 +1,181 @@
+name: akf-wf-gawa-tiles-14way
+spec:
+  image: "ghcr.io/uffescience/gawa:tiles-v1"
+  namespace: "akoflow"
+  storageClassName: "hostpath"
+  storageSize: "10Gi"
+  storagePolicy:
+    type: distributed
+  mountPath: "/data-akoflow"
+  activities:
+    - name: prepare
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py prepare --count 14
+      memoryLimit: 4Gi
+      cpuLimit: 1
+    - name: tile-000
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 0
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-001
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 1
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-002
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 2
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-003
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 3
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-004
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 4
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-005
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 5
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-006
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 6
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-007
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 7
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-008
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 8
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-009
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 9
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-010
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 10
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-011
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 11
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-012
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 12
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: tile-013
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py tile --id 13
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "prepare"
+    - name: merge
+      run: |
+        set -eu
+        export PYTHONPATH=/data${PYTHONPATH:+:$PYTHONPATH}
+        export OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 MKL_NUM_THREADS=1
+        conda run --no-capture-output -n gawa python -W ignore /data/gawa_tasks.py merge
+      memoryLimit: 4Gi
+      cpuLimit: 1
+      dependsOn:
+        - "tile-000"
+        - "tile-001"
+        - "tile-002"
+        - "tile-003"
+        - "tile-004"
+        - "tile-005"
+        - "tile-006"
+        - "tile-007"
+        - "tile-008"
+        - "tile-009"
+        - "tile-010"
+        - "tile-011"
+        - "tile-012"
+        - "tile-013"
