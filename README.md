@@ -89,6 +89,11 @@ external workflow engines. The original Parsl entry point remains available.
 The tile CLI calls the same worker functions directly, without starting Parsl.
 
 Container image: `ghcr.io/uffescience/gawa:tiles-v1` (linux/amd64).
+The UFFeScience organization currently blocks public packages, so this image
+requires GHCR authentication and package access. Authenticate with
+`docker login ghcr.io` using a token with `read:packages`, or configure the
+executor's image-pull credentials. An organization administrator must allow
+public packages before this image can be made anonymously downloadable.
 For reproducible experiments, select the commit-SHA tag or image digest published
 by the **Tile workflow** GitHub Action.
 
